@@ -40,16 +40,4 @@ Having trouble with Pages? Check out our [documentation](https://docs.github.com
   <li class="progress-step is-complete">
     <div class="progress-marker"></div>
   </li>
-  <li class="progress-step is-complete">
-    <div class="progress-marker"></div>
-  </li>
-  <li class="progress-step is-active">
-    <div class="progress-marker"></div>
-  </li>
-  <li class="progress-step">
-    <div class="progress-marker"></div>
-  </li>
-  <li class="progress-step">
-    <div class="progress-marker"></div>
-  </li>
-</ul>
+  
