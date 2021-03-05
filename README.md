@@ -1,63 +1,62 @@
-## Welcome to GitHub Pages
+# SASS Progress Tracker
+### A HTML component to illustrate the steps in a multi step process e.g. a multi step form, a timeline or a quiz.
 
-You can use the [editor on GitHub](https://github.com/hondaguy18/repairtracker/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
+### [View demo](http://nigelotoole.github.io/progress-tracker/)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## Installation
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```javascript
+$ npm install progress-tracker --save
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### Import
 
-### Jekyll Themes
+After installation you can import it into your Sass files with the statement below.
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/hondaguy18/repairtracker/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+```scss
+@import "node_modules/progress-tracker/src/styles/progress-tracker.scss";
+```
 
-### Support or Contact
+The JS that is part of this site is just for demonstration purposes, add your own JS as needed to toggle the classes for the step states.
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+### Markup
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
-<body>
+Follow the HTML code example below for basic usage; each demo sets the first two steps as complete, the third step as active and the last two steps as inactive.
 
-<div class="container">
-  <h2>Progress Bar With Label</h2>
-  <div class="progress">
-    <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
-      70%
-    </div>
-  </div>
-</div>
+For additional styles add modifier classes and additional markup as needed in the examples below. You can add multiple modifier classes to achieve additional styles that those shown below.
 
-</body>
-</html>
+```html
+<ul class="progress-tracker">
+  <li class="progress-step is-complete">
+    <div class="progress-marker"></div>
+  </li>
+  <li class="progress-step is-complete">
+    <div class="progress-marker"></div>
+  </li>
+  <li class="progress-step is-active">
+    <div class="progress-marker"></div>
+  </li>
+  <li class="progress-step">
+    <div class="progress-marker"></div>
+  </li>
+  <li class="progress-step">
+    <div class="progress-marker"></div>
+  </li>
+</ul>
+```
 
-  
+
+### Demo site
+
+Clone or download from Github.
+
+```javascript
+    $ npm install
+    $ gulp serve
+```
+
+
+### License
+MIT © Nigel O Toole
