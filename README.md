@@ -1,62 +1,188 @@
-# SASS Progress Tracker
-### A HTML component to illustrate the steps in a multi step process e.g. a multi step form, a timeline or a quiz.
+<div
+  id="app"
+  :class="progressClasses"
+>
+  <div class="progress__bg"></div>
+  
+  <template v-for="(step, index) in steps">
+    <div :class="stepClasses(index)">
+      <div class="progress__indicator">
+        <i class="fa fa-check"></i>
+      </div>
+      <div class="progress__label">
+        {{step.label}}
+      </div>
+    </div>
+  </template>
+  
+  <div class="progress__actions">
+    <div
+      class="btn"
+      v-on:click="nextStep(false)"
+    >
+      Back
+    </div>
+    <div
+      class="btn"
+      v-on:click="nextStep"
+    >
+      Next
+    </div>
+    <div>
+      Step:
+      {{currentStep ? currentStep.label : "Start"}}
+    </div>
+  </div>
+</div>
 
-### [View demo](http://nigelotoole.github.io/progress-tracker/)
+$gray:  #E5E5E5;
+$gray2: #808080;
+$blue:  #2183DD;
+$green: #009900;
+$white: #FFFFFF;
 
+.progress {
+  position: absolute;
+  top: 15vh;
+  width: 0%;
+  height: 10px;
+  background-color: $blue;
+  transition: width .2s;
+}
 
+.progress__bg {
+  position: absolute;
+  width: 100vw;
+  height: 10px;
+  background-color: $gray;
+  z-index: -1;
+}
 
-## Installation
+.progress__step {
+  position: absolute;
+  top: -8px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  
+  @for $i from 1 through 5 {
+    &.progress__step--#{$i} {
+      left: calc(#{$i * 20}vw - 9px);
+    }
+  }
+}
 
-```javascript
-$ npm install progress-tracker --save
-```
+.progress__indicator {
+  width: 25px;
+  height: 25px;
+  border: 2px solid $gray2;
+  border-radius: 50%;
+  background-color: $white;
+  margin-bottom: 10px;
+  
+  .fa {
+    display: none;
+    font-size: 16px;
+    color: $white;
+  }
+}
 
-### Import
+.progress__label {
+  position: absolute;
+  top: 40px;
+}
 
-After installation you can import it into your Sass files with the statement below.
+&.progress__step--active {
+  color: $blue;
+  font-weight: 600;
+}
 
-```scss
-@import "node_modules/progress-tracker/src/styles/progress-tracker.scss";
-```
+&.progress__step--complete {
+  .progress__indicator {
+    background-color: $green;
+    border-color: $blue;
+    color: $white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+    
+  .progress__indicator .fa {
+    display: block;
+  }
+  
+  .progress__label {
+    font-weight: 600;
+    color: $green;
+  }
+}
 
-The JS that is part of this site is just for demonstration purposes, add your own JS as needed to toggle the classes for the step states.
+var app = new Vue({
+  el: '#app',
+  
+  data: {
+    currentStep: null,
+    steps: [
+      {"label": "one"},
+      {"label": "two"},
+      {"label": "three"},
+      {"label": "complete"}
+    ]
+  },
+  
+  methods: {
+    nextStep(next=true) {
+      const steps = this.steps
+      const currentStep = this.currentStep
+      const currentIndex = steps.indexOf(currentStep)
+      
+      // handle back
+      if (!next) {
+        if (currentStep && currentStep.label === 'complete') {
+          return this.currentStep = steps[steps.length - 1]           
+        }
 
-### Markup
+        if (steps[currentIndex - 1]) {
+          return this.currentStep = steps[currentIndex - 1] 
+        }
 
-Follow the HTML code example below for basic usage; each demo sets the first two steps as complete, the third step as active and the last two steps as inactive.
+        return this.currentStep = { "label": "start" }   
+      }
+      
+      // handle next
+      if (this.currentStep && this.currentStep.label === 'complete') {
+        return this.currentStep = { "label": "start" }
+      }
+      
+      if (steps[currentIndex + 1]) {
+        return this.currentStep = steps[currentIndex + 1]
+      }
 
-For additional styles add modifier classes and additional markup as needed in the examples below. You can add multiple modifier classes to achieve additional styles that those shown below.
-
-```html
-<ul class="progress-tracker">
-  <li class="progress-step is-complete">
-    <div class="progress-marker"></div>
-  </li>
-  <li class="progress-step is-complete">
-    <div class="progress-marker"></div>
-  </li>
-  <li class="progress-step is-active">
-    <div class="progress-marker"></div>
-  </li>
-  <li class="progress-step">
-    <div class="progress-marker"></div>
-  </li>
-  <li class="progress-step">
-    <div class="progress-marker"></div>
-  </li>
-</ul>
-```
-
-
-### Demo site
-
-Clone or download from Github.
-
-```javascript
-    $ npm install
-    $ gulp serve
-```
-
-
-### License
-MIT © Nigel O Toole
+      this.currentStep = { "label": "complete" }   
+    },
+    
+    stepClasses(index) {
+      let result = `progress__step progress__step--${index + 1} `
+      if (this.currentStep && this.currentStep.label === 'complete' ||
+          index < this.steps.indexOf(this.currentStep)) {
+        return result += 'progress__step--complete'
+      }
+      if (index === this.steps.indexOf(this.currentStep)) {
+        return result += 'progress__step--active'
+      }
+      return result
+    }
+  },
+  
+  computed: {
+     progressClasses() {
+      let result = 'progress '
+      if (this.currentStep && this.currentStep.label === 'complete') {
+        return result += 'progress--complete'
+      }
+      return result += `progress--${this.steps.indexOf(this.currentStep) + 1}`
+    }
+  }
+})
